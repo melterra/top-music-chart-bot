@@ -1,0 +1,38 @@
+name: Daily Music Chart Autopost
+
+on:
+  schedule:
+    - cron: '0 9 * * *' # Каждый день в 09:00 UTC (12:00 по Москве)
+  workflow_dispatch: # Кнопка для ручного тестового запуска
+
+permissions:
+  contents: write
+
+jobs:
+  autopost:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Скачиваем репозиторий
+        uses: actions/checkout@v4
+
+      - name: Настраиваем Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Устанавливаем зависимости
+        run: pip install requests
+
+      - name: Запускаем бота
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHANNEL_ID: ${{ secrets.TG_CHANNEL_ID }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: python bot.py
+
+      - name: Сохраняем историю стран
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add history.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update chart history" && git push)
