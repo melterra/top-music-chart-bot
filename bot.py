@@ -155,8 +155,8 @@ def generate_post(country, tracks_text):
             print(f"Model {model} failed: {e}")
     raise RuntimeError("Все бесплатные модели OpenRouter временно недоступны")
 def send_to_telegram(text):
-    url = f"https://telegram.org{TG_BOT_TOKEN}/sendMessage"
-    resp = requests.post(url, json={"chat_id": TG_CHANNEL_ID, "text": text, "parse_mode": "HTML", "disable_web_page_preview": True}, timeout=20)
+    url = "/".join(["https://telegram.org", "bot" + TG_BOT_TOKEN.strip(), "sendMessage"])
+    resp = requests.post(url, json={"chat_id": TG_CHANNEL_ID.strip(), "text": text, "parse_mode": "HTML", "disable_web_page_preview": True}, timeout=20)
     resp.raise_for_status()
 
 
