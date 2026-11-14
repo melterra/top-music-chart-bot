@@ -1,4 +1,3 @@
-python
 import json
 import os
 import random
@@ -194,7 +193,7 @@ def fetch_chart(country_code):
     resp = requests.get(url, timeout=20)
     resp.raise_for_status()
     data = resp.json()
-results = data.get("feed", {}).get("results", [])
+esults = data.get("feed", {}).get("results", [])
 if not results:
 return None
 tracks = []
@@ -250,7 +249,7 @@ json=payload,
 timeout=45,
 )
 if resp.status_code == 200:
-content = resp.json()["choices"]["message"]["content"].strip()
+content = resp.json()["choices"][0]["message"]["content"].strip()
 if content:
 return content
 except Exception as e:
