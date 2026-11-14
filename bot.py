@@ -126,28 +126,34 @@ def generate_post(country, tracks_text):
 5. Используй только базовые HTML-теги Telegram: <b> и <i>. Не используй Markdown (** или #) и не пиши никаких вступительных слов от себя."""
 
     models = [
-        "google/gemini-2.0-flash-exp:free",
+        "openrouter/free",
+        "google/gemma-3-27b-it:free",
         "meta-llama/llama-3.3-70b-instruct:free",
-        "qwen/qwen-2.5-72b-instruct:free"
+        "deepseek/deepseek-r1-0528:free"
     ]
-    headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
+    api_url = "/".join(["https://openrouter.ai", "api", "v1", "chat", "completions"])
+    headers = {
+        "Authorization": "Bearer " + OPENROUTER_API_KEY.strip(),
+        "Content-Type": "application/json"
+    }
     for model in models:
         try:
             resp = requests.post(
-                "https://openrouter.ai",
+                api_url,
                 headers=headers,
                 json={"model": model, "messages": [{"role": "user", "content": prompt}]},
                 timeout=45
             )
-            if resp.status_code == 200:
-                content = resp.json()["choices"]["message"]["content"].strip()
+            if resp.status_code == 200 and resp.text.strip():
+                data = resp.json()
+                content = data["choices"][0]["message"]["content"].strip()
                 if content:
                     return content
+            else:
+                print(f"Model {model} status {resp.status_code}: {resp.text[:150]}")
         except Exception as e:
             print(f"Model {model} failed: {e}")
     raise RuntimeError("Все бесплатные модели OpenRouter временно недоступны")
-
-
 def send_to_telegram(text):
     url = f"https://telegram.org{TG_BOT_TOKEN}/sendMessage"
     resp = requests.post(url, json={"chat_id": TG_CHANNEL_ID, "text": text, "parse_mode": "HTML", "disable_web_page_preview": True}, timeout=20)
