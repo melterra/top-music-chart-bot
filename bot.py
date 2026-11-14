@@ -1,3 +1,4 @@
+cat << 'EOF' > ~/Desktop/bot.py
 import json
 import os
 import random
@@ -8,169 +9,61 @@ TG_CHANNEL_ID = os.environ["TG_CHANNEL_ID"]
 OPENROUTER_API_KEY = os.environ["OPENROUTER_API_KEY"]
 
 COUNTRIES = [
-    {"code": "au", "name": "Австралия", "flag": "🇦🇺"},
-    {"code": "at", "name": "Австрия", "flag": "🇦🇹"},
-    {"code": "az", "name": "Азербайджан", "flag": "🇦🇿"},
-    {"code": "dz", "name": "Алжир", "flag": "🇩🇿"},
-    {"code": "ai", "name": "Ангилья", "flag": "🇦🇮"},
-    {"code": "ao", "name": "Ангола", "flag": "🇦🇴"},
-    {"code": "ag", "name": "Антигуа и Барбуда", "flag": "🇦🇬"},
-    {"code": "ar", "name": "Аргентина", "flag": "🇦🇷"},
-    {"code": "am", "name": "Армения", "flag": "🇦🇲"},
-    {"code": "bs", "name": "Багамы", "flag": "🇧🇸"},
-    {"code": "bb", "name": "Барбадос", "flag": "🇧🇧"},
-    {"code": "bh", "name": "Бахрейн", "flag": "🇧🇭"},
-    {"code": "by", "name": "Беларусь", "flag": "🇧🇾"},
-    {"code": "bz", "name": "Белиз", "flag": "🇧🇿"},
-    {"code": "be", "name": "Бельгия", "flag": "🇧🇪"},
-    {"code": "bj", "name": "Бенин", "flag": "🇧🇯"},
-    {"code": "bm", "name": "Бермуды", "flag": "🇧🇲"},
-    {"code": "bg", "name": "Болгария", "flag": "🇧🇬"},
-    {"code": "bo", "name": "Боливия", "flag": "🇧🇴"},
-    {"code": "ba", "name": "Босния и Герцеговина", "flag": "🇧🇦"},
-    {"code": "bw", "name": "Ботсвана", "flag": "🇧🇼"},
-    {"code": "br", "name": "Бразилия", "flag": "🇧🇷"},
-    {"code": "vg", "name": "Британские Виргинские острова", "flag": "🇻🇬"},
-    {"code": "bn", "name": "Бруней", "flag": "🇧🇳"},
-    {"code": "bf", "name": "Буркина-Фасо", "flag": "🇧🇫"},
-    {"code": "bt", "name": "Бутан", "flag": "🇧🇹"},
-    {"code": "vu", "name": "Вануату", "flag": "🇻🇺"},
-    {"code": "gb", "name": "Великобритания", "flag": "🇬🇧"},
-    {"code": "hu", "name": "Венгрия", "flag": "🇭🇺"},
-    {"code": "ve", "name": "Венесуэла", "flag": "🇻🇪"},
-    {"code": "vn", "name": "Вьетнам", "flag": "🇻🇳"},
-    {"code": "ga", "name": "Габон", "flag": "🇬🇦"},
-    {"code": "gy", "name": "Гайана", "flag": "🇬🇾"},
-    {"code": "gm", "name": "Гамбия", "flag": "🇬🇲"},
-    {"code": "gh", "name": "Гана", "flag": "🇬🇭"},
-    {"code": "gt", "name": "Гватемала", "flag": "🇬🇹"},
-    {"code": "gw", "name": "Гвинея-Бисау", "flag": "🇬🇼"},
-    {"code": "de", "name": "Германия", "flag": "🇩🇪"},
-    {"code": "hn", "name": "Гондурас", "flag": "🇭🇳"},
-    {"code": "hk", "name": "Гонконг", "flag": "🇭🇰"},
-    {"code": "gd", "name": "Гренада", "flag": "🇬🇩"},
-    {"code": "gr", "name": "Греция", "flag": "🇬🇷"},
-    {"code": "ge", "name": "Грузия", "flag": "🇬🇪"},
-    {"code": "dk", "name": "Дания", "flag": "🇩🇰"},
-    {"code": "dm", "name": "Доминика", "flag": "🇩🇲"},
-    {"code": "do", "name": "Доминиканская Республика", "flag": "🇩🇴"},
-    {"code": "eg", "name": "Египет", "flag": "🇪🇬"},
-    {"code": "zm", "name": "Замбия", "flag": "🇿🇲"},
-    {"code": "zw", "name": "Зимбабве", "flag": "🇿🇼"},
-    {"code": "il", "name": "Израиль", "flag": "🇮🇱"},
-    {"code": "in", "name": "Индия", "flag": "🇮🇳"},
-    {"code": "id", "name": "Индонезия", "flag": "🇮🇩"},
-    {"code": "jo", "name": "Иордания", "flag": "🇯🇴"},
-    {"code": "iq", "name": "Ирак", "flag": "🇮🇶"},
-    {"code": "ie", "name": "Ирландия", "flag": "🇮🇪"},
-    {"code": "is", "name": "Исландия", "flag": "🇮🇸"},
-    {"code": "es", "name": "Испания", "flag": "🇪🇸"},
-    {"code": "it", "name": "Италия", "flag": "🇮🇹"},
-    {"code": "ye", "name": "Йемен", "flag": "🇾🇪"},
-    {"code": "cv", "name": "Кабо-Верде", "flag": "🇨🇻"},
-    {"code": "kz", "name": "Казахстан", "flag": "🇰🇿"},
-    {"code": "ky", "name": "Каймановы острова", "flag": "🇰🇾"},
-    {"code": "kh", "name": "Камбоджа", "flag": "🇰🇭"},
-    {"code": "cm", "name": "Камерун", "flag": "🇨🇲"},
-    {"code": "ca", "name": "Канада", "flag": "🇨🇦"},
-    {"code": "qa", "name": "Катар", "flag": "🇶🇦"},
-    {"code": "ke", "name": "Кения", "flag": "🇰🇪"},
-    {"code": "cy", "name": "Кипр", "flag": "🇨🇾"},
-    {"code": "cn", "name": "Китай", "flag": "🇨🇳"},
-    {"code": "co", "name": "Колумбия", "flag": "🇨🇴"},
-    {"code": "cr", "name": "Коста-Рика", "flag": "🇨🇷"},
-    {"code": "ci", "name": "Кот-д’Ивуар", "flag": "🇨🇮"},
-    {"code": "kw", "name": "Кувейт", "flag": "🇰🇼"},
-    {"code": "kg", "name": "Кыргызстан", "flag": "🇰🇬"},
-    {"code": "la", "name": "Лаос", "flag": "🇱🇦"},
-    {"code": "lv", "name": "Латвия", "flag": "🇱🇻"},
-    {"code": "lb", "name": "Ливан", "flag": "🇱🇧"},
-    {"code": "lr", "name": "Либерия", "flag": "🇱🇷"},
-    {"code": "ly", "name": "Ливия", "flag": "🇱🇾"},
-    {"code": "lt", "name": "Литва", "flag": "🇱🇹"},
-    {"code": "lu", "name": "Люксембург", "flag": "🇱🇺"},
-    {"code": "mu", "name": "Маврикий", "flag": "🇲🇺"},
-    {"code": "mr", "name": "Мавритания", "flag": "🇲🇷"},
-    {"code": "mg", "name": "Мадагаскар", "flag": "🇲🇬"},
-    {"code": "mo", "name": "Макао", "flag": "🇲🇴"},
-    {"code": "mw", "name": "Малави", "flag": "🇲🇼"},
-    {"code": "my", "name": "Малайзия", "flag": "🇲🇾"},
-    {"code": "ml", "name": "Мали", "flag": "🇲🇱"},
-    {"code": "mv", "name": "Мальдивы", "flag": "🇲🇻"},
-    {"code": "mt", "name": "Мальта", "flag": "🇲🇹"},
-    {"code": "ma", "name": "Марокко", "flag": "🇲🇦"},
-    {"code": "mx", "name": "Мексика", "flag": "🇲🇽"},
-    {"code": "mz", "name": "Мозамбик", "flag": "🇲🇿"},
-    {"code": "md", "name": "Молдова", "flag": "🇲🇩"},
-    {"code": "mn", "name": "Монголия", "flag": "🇲🇳"},
-    {"code": "ms", "name": "Монтсеррат", "flag": "🇲🇸"},
-    {"code": "mm", "name": "Мьянма", "flag": "🇲🇲"},
-    {"code": "na", "name": "Намибия", "flag": "🇳🇦"},
-    {"code": "np", "name": "Непал", "flag": "🇳🇵"},
-    {"code": "ne", "name": "Нигер", "flag": "🇳🇪"},
-    {"code": "ng", "name": "Нигерия", "flag": "🇳🇬"},
-    {"code": "nl", "name": "Нидерланды", "flag": "🇳🇱"},
-    {"code": "ni", "name": "Никарагуа", "flag": "🇳🇮"},
-    {"code": "nz", "name": "Новая Зеландия", "flag": "🇳🇿"},
-    {"code": "no", "name": "Норвегия", "flag": "🇳🇴"},
-    {"code": "ae", "name": "ОАЭ", "flag": "🇦🇪"},
-    {"code": "om", "name": "Оман", "flag": "🇴🇲"},
-    {"code": "pa", "name": "Панама", "flag": "🇵🇦"},
-    {"code": "pg", "name": "Папуа — Новая Гвинея", "flag": "🇵🇬"},
-    {"code": "py", "name": "Парагвай", "flag": "🇵🇾"},
-    {"code": "pe", "name": "Перу", "flag": "🇵🇪"},
-    {"code": "pl", "name": "Польша", "flag": "🇵🇱"},
-    {"code": "pt", "name": "Португалия", "flag": "🇵🇹"},
-    {"code": "cg", "name": "Республика Конго", "flag": "🇨🇬"},
-    {"code": "rw", "name": "Руанда", "flag": "🇷🇼"},
-    {"code": "ro", "name": "Румыния", "flag": "🇷🇴"},
-    {"code": "sv", "name": "Сальвадор", "flag": "🇸🇻"},
-    {"code": "sa", "name": "Саудовская Аравия", "flag": "🇸🇦"},
-    {"code": "mk", "name": "Северная Македония", "flag": "🇲🇰"},
-    {"code": "sc", "name": "Сейшелы", "flag": "🇸🇨"},
-    {"code": "sn", "name": "Сенегал", "flag": "🇸🇳"},
-    {"code": "vc", "name": "Сент-Винсент и Гренадины", "flag": "🇻🇨"},
-    {"code": "kn", "name": "Сент-Китс и Невис", "flag": "🇰🇳"},
-    {"code": "lc", "name": "Сент-Люсия", "flag": "🇱🇨"},
-    {"code": "rs", "name": "Сербия", "flag": "🇷🇸"},
-    {"code": "sg", "name": "Сингапур", "flag": "🇸🇬"},
-    {"code": "sk", "name": "Словакия", "flag": "🇸🇰"},
-    {"code": "si", "name": "Словения", "flag": "🇸🇮"},
-    {"code": "sb", "name": "Соломоновы Острова", "flag": "🇸🇧"},
-    {"code": "us", "name": "США", "flag": "🇺🇸"},
-    {"code": "sl", "name": "Сьерра-Леоне", "flag": "🇸🇱"},
-    {"code": "tj", "name": "Таджикистан", "flag": "🇹🇯"},
-    {"code": "th", "name": "Таиланд", "flag": "🇹🇭"},
-    {"code": "tw", "name": "Тайвань", "flag": "🇹🇼"},
-    {"code": "tz", "name": "Танзания", "flag": "🇹🇿"},
-    {"code": "tc", "name": "Тёркс и Кайкос", "flag": "🇹🇨"},
-    {"code": "tt", "name": "Тринидад и Тобаго", "flag": "🇹🇹"},
-    {"code": "tn", "name": "Тунис", "flag": "🇹🇳"},
-    {"code": "tm", "name": "Туркменистан", "flag": "🇹🇲"},
-    {"code": "tr", "name": "Турция", "flag": "🇹🇷"},
-    {"code": "ug", "name": "Уганда", "flag": "🇺🇬"},
-    {"code": "uz", "name": "Узбекистан", "flag": "🇺🇿"},
-    {"code": "ua", "name": "Украина", "flag": "🇺🇦"},
-    {"code": "uy", "name": "Уругвай", "flag": "🇺🇾"},
-    {"code": "fj", "name": "Фиджи", "flag": "🇫🇯"},
-    {"code": "ph", "name": "Филиппины", "flag": "🇵🇭"},
-    {"code": "fi", "name": "Финляндия", "flag": "🇫🇮"},
-    {"code": "fr", "name": "Франция", "flag": "🇫🇷"},
-    {"code": "hr", "name": "Хорватия", "flag": "🇭🇷"},
-    {"code": "td", "name": "Чад", "flag": "🇹🇩"},
-    {"code": "me", "name": "Черногория", "flag": "🇲🇪"},
-    {"code": "cz", "name": "Чехия", "flag": "🇨🇿"},
-    {"code": "cl", "name": "Чили", "flag": "🇨🇱"},
-    {"code": "ch", "name": "Швейцария", "flag": "🇨🇭"},
-    {"code": "se", "name": "Швеция", "flag": "🇸🇪"},
-    {"code": "lk", "name": "Шри-Ланка", "flag": "🇱🇰"},
-    {"code": "ec", "name": "Эквадор", "flag": "🇪🇨"},
-    {"code": "ee", "name": "Эстония", "flag": "🇪🇪"},
-    {"code": "sz", "name": "Эсватини", "flag": "🇸🇿"},
-    {"code": "za", "name": "ЮАР", "flag": "🇿🇦"},
-    {"code": "kr", "name": "Южная Корея", "flag": "🇰🇷"},
-    {"code": "jm", "name": "Ямайка", "flag": "🇯🇲"},
-    {"code": "jp", "name": "Япония", "flag": "🇯🇵"},
+    ("au", "Австралия", "🇦🇺"), ("at", "Австрия", "🇦🇹"), ("az", "Азербайджан", "🇦🇿"),
+    ("dz", "Алжир", "🇩🇿"), ("ai", "Ангилья", "🇦🇮"), ("ao", "Ангола", "🇦🇴"),
+    ("ag", "Антигуа и Барбуда", "🇦🇬"), ("ar", "Аргентина", "🇦🇷"), ("am", "Армения", "🇦🇲"),
+    ("bs", "Багамы", "🇧🇸"), ("bb", "Барбадос", "🇧🇧"), ("bh", "Бахрейн", "🇧🇭"),
+    ("by", "Беларусь", "🇧🇾"), ("bz", "Белиз", "🇧🇿"), ("be", "Бельгия", "🇧🇪"),
+    ("bj", "Бенин", "🇧🇯"), ("bm", "Бермуды", "🇧🇲"), ("bg", "Болгария", "🇧🇬"),
+    ("bo", "Боливия", "🇧🇴"), ("ba", "Босния и Герцеговина", "🇧🇦"), ("bw", "Ботсвана", "🇧🇼"),
+    ("br", "Бразилия", "🇧🇷"), ("vg", "Британские Виргинские острова", "🇻🇬"), ("bn", "Бруней", "🇧🇳"),
+    ("bf", "Буркина-Фасо", "🇧🇫"), ("bt", "Бутан", "🇧🇹"), ("vu", "Вануату", "🇻🇺"),
+    ("gb", "Великобритания", "🇬🇧"), ("hu", "Венгрия", "🇭🇺"), ("ve", "Венесуэла", "🇻🇪"),
+    ("vn", "Вьетнам", "🇻🇳"), ("ga", "Габон", "🇬🇦"), ("gy", "Гайана", "🇬🇾"),
+    ("gm", "Гамбия", "🇬🇲"), ("gh", "Гана", "🇬🇭"), ("gt", "Гватемала", "🇬🇹"),
+    ("gw", "Гвинея-Бисау", "🇬🇼"), ("de", "Германия", "🇩🇪"), ("hn", "Гондурас", "🇭🇳"),
+    ("hk", "Гонконг", "🇭🇰"), ("gd", "Гренада", "🇬🇩"), ("gr", "Греция", "🇬🇷"),
+    ("ge", "Грузия", "🇬🇪"), ("dk", "Дания", "🇩🇰"), ("dm", "Доминика", "🇩🇲"),
+    ("do", "Доминиканская Республика", "🇩🇴"), ("eg", "Египет", "🇪🇬"), ("zm", "Замбия", "🇿🇲"),
+    ("zw", "Зимбабве", "🇿🇼"), ("il", "Израиль", "🇮🇱"), ("in", "Индия", "🇮🇳"),
+    ("id", "Индонезия", "🇮🇩"), ("jo", "Иордания", "🇯🇴"), ("iq", "Ирак", "🇮🇶"),
+    ("ie", "Ирландия", "🇮🇪"), ("is", "Исландия", "🇮🇸"), ("es", "Испания", "🇪🇸"),
+    ("it", "Италия", "🇮🇹"), ("ye", "Йемен", "🇾🇪"), ("cv", "Кабо-Верде", "🇨🇻"),
+    ("kz", "Казахстан", "🇰🇿"), ("ky", "Каймановы острова", "🇰🇾"), ("kh", "Камбоджа", "🇰🇭"),
+    ("cm", "Камерун", "🇨🇲"), ("ca", "Канада", "🇨🇦"), ("qa", "Катар", "🇶🇦"),
+    ("ke", "Кения", "🇰🇪"), ("cy", "Кипр", "🇨🇾"), ("cn", "Китай", "🇨🇳"),
+    ("co", "Колумбия", "🇨🇴"), ("cr", "Коста-Рика", "🇨🇷"), ("ci", "Кот-д’Ивуар", "🇨🇮"),
+    ("kw", "Кувейт", "🇰🇼"), ("kg", "Кыргызстан", "🇰🇬"), ("la", "Лаос", "🇱🇦"),
+    ("lv", "Латвия", "🇱🇻"), ("lb", "Ливан", "🇱🇧"), ("lr", "Либерия", "🇱🇷"),
+    ("ly", "Ливия", "🇱🇾"), ("lt", "Литва", "🇱🇹"), ("lu", "Люксембург", "🇱🇺"),
+    ("mu", "Маврикий", "🇲🇺"), ("mr", "Мавритания", "🇲🇷"), ("mg", "Мадагаскар", "🇲🇬"),
+    ("mo", "Макао", "🇲🇴"), ("mw", "Малави", "🇲🇼"), ("my", "Малайзия", "🇲🇾"),
+    ("ml", "Мали", "🇲🇱"), ("mv", "Мальдивы", "🇲🇻"), ("mt", "Мальта", "🇲🇹"),
+    ("ma", "Марокко", "🇲🇦"), ("mx", "Мексика", "🇲🇽"), ("mz", "Мозамбик", "🇲🇿"),
+    ("md", "Молдова", "🇲🇩"), ("mn", "Монголия", "🇲🇳"), ("ms", "Монтсеррат", "🇲🇸"),
+    ("mm", "Мьянма", "🇲🇲"), ("na", "Намибия", "🇳🇦"), ("np", "Непал", "🇳🇵"),
+    ("ne", "Нигер", "🇳🇪"), ("ng", "Нигерия", "🇳🇬"), ("nl", "Нидерланды", "🇳🇱"),
+    ("ni", "Никарагуа", "🇳🇮"), ("nz", "Новая Зеландия", "🇳🇿"), ("no", "Норвегия", "🇳🇴"),
+    ("ae", "ОАЭ", "🇦🇪"), ("om", "Оман", "🇴🇲"), ("pa", "Панама", "🇵🇦"),
+    ("pg", "Папуа — Новая Гвинея", "🇵🇬"), ("py", "Парагвай", "🇵🇾"), ("pe", "Перу", "🇵🇪"),
+    ("pl", "Польша", "🇵🇱"), ("pt", "Португалия", "🇵🇹"), ("cg", "Республика Конго", "🇨🇬"),
+    ("rw", "Руанда", "🇷🇼"), ("ro", "Румыния", "🇷🇴"), ("sv", "Сальвадор", "🇸🇻"),
+    ("sa", "Саудовская Аравия", "🇸🇦"), ("mk", "Северная Македония", "🇲🇰"), ("sc", "Сейшелы", "🇸🇨"),
+    ("sn", "Сенегал", "🇸🇳"), ("vc", "Сент-Винсент и Гренадины", "🇻🇨"), ("kn", "Сент-Китс и Невис", "🇰🇳"),
+    ("lc", "Сент-Люсия", "🇱🇨"), ("rs", "Сербия", "🇷🇸"), ("sg", "Сингапур", "🇸🇬"),
+    ("sk", "Словакия", "🇸🇰"), ("si", "Словения", "🇸🇮"), ("sb", "Соломоновы Острова", "🇸🇧"),
+    ("us", "США", "🇺🇸"), ("sl", "Сьерра-Леоне", "🇸🇱"), ("tj", "Таджикистан", "🇹🇯"),
+    ("th", "Таиланд", "🇹🇭"), ("tw", "Тайвань", "🇹🇼"), ("tz", "Танзания", "🇹🇿"),
+    ("tc", "Тёркс и Кайкос", "🇹🇨"), ("tt", "Тринидад и Тобаго", "🇹🇹"), ("tn", "Тунис", "🇹🇳"),
+    ("tm", "Туркменистан", "🇹🇲"), ("tr", "Турция", "🇹🇷"), ("ug", "Уганда", "🇺🇬"),
+    ("uz", "Узбекистан", "🇺🇿"), ("ua", "Украина", "🇺🇦"), ("uy", "Уругвай", "🇺🇾"),
+    ("fj", "Фиджи", "🇫🇯"), ("ph", "Филиппины", "🇵🇭"), ("fi", "Финляндия", "🇫🇮"),
+    ("fr", "Франция", "🇫🇷"), ("hr", "Хорватия", "🇭🇷"), ("td", "Чад", "🇹🇩"),
+    ("me", "Черногория", "🇲🇪"), ("cz", "Чехия", "🇨🇿"), ("cl", "Чили", "🇨🇱"),
+    ("ch", "Швейцария", "🇨🇭"), ("se", "Швеция", "🇸🇪"), ("lk", "Шри-Ланка", "🇱🇰"),
+    ("ec", "Эквадор", "🇪🇨"), ("ee", "Эстония", "🇪🇪"), ("sz", "Эсватини", "🇸🇿"),
+    ("za", "ЮАР", "🇿🇦"), ("kr", "Южная Корея", "🇰🇷"), ("jm", "Ямайка", "🇯🇲"),
+    ("jp", "Япония", "🇯🇵")
 ]
 
 HISTORY_FILE = "history.json"
@@ -192,81 +85,79 @@ def fetch_chart(country_code):
     url = f"https://apple.com{country_code}/music/most-played/10/songs.json"
     resp = requests.get(url, timeout=20)
     resp.raise_for_status()
-    data = resp.json()
-esults = data.get("feed", {}).get("results", [])
-if not results:
-return None
-tracks = []
-for idx, item in enumerate(results[:10], start=1):
-artist = item.get("artistName", "Unknown")
-title = item.get("name", "Unknown")
-tracks.append(f"{idx}. {artist} — {title}")
-return "\n".join(tracks)
+    results = resp.json().get("feed", {}).get("results", [])
+    if not results:
+        return None
+    tracks = [f"{i}. {x.get('artistName', 'Unknown')} — {x.get('name', 'Unknown')}" for i, x in enumerate(results[:10], 1)]
+    return "\n".join(tracks)
+
+
 def get_country_and_tracks():
-history = load_history()
-available = [c for c in COUNTRIES if c["code"] not in history]
-if not available:
-history = []
-available = COUNTRIES[:]
-random.shuffle(available)
-for chosen in available:
-try:
-tracks = fetch_chart(chosen["code"])
-if tracks:
-history.append(chosen["code"])
-save_history(history)
-return chosen, tracks
-except Exception as e:
-print(f"Пропуск {chosen['name']} ({chosen['code']}): {e}")
-raise RuntimeError("Не удалось получить чарт ни для одной страны")
+    history = load_history()
+    available = [c for c in COUNTRIES if c[0] not in history]
+    if not available:
+        history = []
+        available = COUNTRIES[:]
+    random.shuffle(available)
+    for code, name, flag in available:
+        try:
+            tracks = fetch_chart(code)
+            if tracks:
+                history.append(code)
+                save_history(history)
+                return {"code": code, "name": name, "flag": flag}, tracks
+        except Exception as e:
+            print(f"Пропуск {name} ({code}): {e}")
+    raise RuntimeError("Не удалось получить чарт ни для одной страны")
+
+
 def generate_post(country, tracks_text):
-prompt = f"""Ты — музыкальный редактор популярного Telegram-канала.
+    prompt = f"""Ты — музыкальный редактор популярного Telegram-канала.
 Оформи красивый, живой пост на русском языке с актуальным топ-10 треков страны: {country['flag']} {country['name']}.
+
 Вот реальный список треков из чарта Apple Music прямо сейчас:
 {tracks_text}
+
 Требования к посту:
-1. Начни с яркого заголовка с флагом страны (например: {country['flag']} Топ-10 чарта: {country['name']}).
+1. Начни с яркого заголовка с флагом страны (например: {country['flag']} <b>Топ-10 чарта: {country['name']}</b>).
 2. Выведи пронумерованный список всех 10 треков. Названия треков и артистов оставь в оригинале.
 3. После списка добавь короткий блок «🎧 Что происходит в чарте» (2–3 предложения с интересными наблюдениями или фактами о лидерах этого списка).
 4. В конце добавь 3–4 подходящих хэштега на русском и английском.
-5. Используй только базовые HTML-теги Telegram:  и . Не используй Markdown (** или #) и не пиши никаких вступительных слов от себя."""models = [
-"google/gemini-2.0-flash-exp:free",
-"meta-llama/llama-3.3-70b-instruct:free",
-"qwen/qwen-2.5-72b-instruct:free",
-]headers = {
-"Authorization": f"Bearer {OPENROUTER_API_KEY}",
-"Content-Type": "application/json",
-}for model in models:
-try:
-payload = {
-"model": model,
-"messages": [{"role": "user", "content": prompt}],
-}
-resp = requests.post(
-"openrouter.ai",
-headers=headers,
-json=payload,
-timeout=45,
-)
-if resp.status_code == 200:
-content = resp.json()["choices"][0]["message"]["content"].strip()
-if content:
-return content
-except Exception as e:
-print(f"Model {model} failed: {e}")raise RuntimeError("Все бесплатные модели OpenRouter временно недоступны")
+5. Используй только базовые HTML-теги Telegram: <b> и <i>. Не используй Markdown (** или #) и не пиши никаких вступительных слов от себя."""
+
+    models = [
+        "google/gemini-2.0-flash-exp:free",
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "qwen/qwen-2.5-72b-instruct:free"
+    ]
+    headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
+    for model in models:
+        try:
+            resp = requests.post(
+                "https://openrouter.ai",
+                headers=headers,
+                json={"model": model, "messages": [{"role": "user", "content": prompt}]},
+                timeout=45
+            )
+            if resp.status_code == 200:
+                content = resp.json()["choices"][0]["message"]["content"].strip()
+                if content:
+                    return content
+        except Exception as e:
+            print(f"Model {model} failed: {e}")
+    raise RuntimeError("Все бесплатные модели OpenRouter временно недоступны")
+
+
 def send_to_telegram(text):
-url = f"telegram.org{TG_BOT_TOKEN}/sendMessage"
-payload = {
-"chat_id": TG_CHANNEL_ID,
-"text": text,
-"parse_mode": "HTML",
-"disable_web_page_preview": True,
-}
-resp = requests.post(url, json=payload, timeout=20)
-resp.raise_for_status()
-if name == "main":
-country, tracks = get_country_and_tracks()
-print(f"Выбрана страна: {country['name']}")
-post_text = generate_post(country, tracks)
-send_to_telegram(post_text)
-print("Пост успешно опубликован!")
+    url = f"https://telegram.org{TG_BOT_TOKEN}/sendMessage"
+    resp = requests.post(url, json={"chat_id": TG_CHANNEL_ID, "text": text, "parse_mode": "HTML", "disable_web_page_preview": True}, timeout=20)
+    resp.raise_for_status()
+
+
+if __name__ == "__main__":
+    country, tracks = get_country_and_tracks()
+    print(f"Выбрана страна: {country['name']}")
+    post_text = generate_post(country, tracks)
+    send_to_telegram(post_text)
+    print("Пост успешно опубликован!")
+EOF
