@@ -81,7 +81,7 @@ def save_history(history):
 
 
 def fetch_chart(country_code):
-        url = "https://apple.com" + country_code + "/music/most-played/10/songs.json"
+    url = "https://apple.com" + country_code + "/music/most-played/10/songs.json"
     resp = requests.get(url, timeout=20)
     resp.raise_for_status()
     results = resp.json().get("feed", {}).get("results", [])
@@ -93,7 +93,7 @@ def fetch_chart(country_code):
 
 def get_country_and_tracks():
     history = load_history()
-    available = [c for c in COUNTRIES if c[0] not in history]
+    available = [c for c in COUNTRIES if c not in history]
     if not available:
         history = []
         available = COUNTRIES[:]
@@ -139,7 +139,7 @@ def generate_post(country, tracks_text):
                 timeout=45
             )
             if resp.status_code == 200:
-                content = resp.json()["choices"][0]["message"]["content"].strip()
+                content = resp.json()["choices"]["message"]["content"].strip()
                 if content:
                     return content
         except Exception as e:
