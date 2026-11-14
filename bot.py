@@ -1,4 +1,3 @@
-cat << 'EOF' > ~/Desktop/bot.py
 import json
 import os
 import random
@@ -160,4 +159,3 @@ if __name__ == "__main__":
     post_text = generate_post(country, tracks)
     send_to_telegram(post_text)
     print("Пост успешно опубликован!")
-EOF
