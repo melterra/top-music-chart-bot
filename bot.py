@@ -81,7 +81,7 @@ def save_history(history):
 
 
 def fetch_chart(country_code):
-        parts = ["https://apple.com", "api", "v2", country_code, "music", "most-played", "10", "songs.json"]
+    parts = ["https://apple.com", "api", "v2", country_code, "music", "most-played", "10", "songs.json"]
     url = "/".join(parts)
     resp = requests.get(url, timeout=20)
     resp.raise_for_status()
