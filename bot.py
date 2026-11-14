@@ -1,3 +1,4 @@
+python
 import json
 import os
 import random
@@ -193,3 +194,81 @@ def fetch_chart(country_code):
     resp = requests.get(url, timeout=20)
     resp.raise_for_status()
     data = resp.json()
+Используйте код с осторожностью.
+results = data.get("feed", {}).get("results", [])
+if not results:
+return None
+tracks = []
+for idx, item in enumerate(results[:10], start=1):
+artist = item.get("artistName", "Unknown")
+title = item.get("name", "Unknown")
+tracks.append(f"{idx}. {artist} — {title}")
+return "\n".join(tracks)
+def get_country_and_tracks():
+history = load_history()
+available = [c for c in COUNTRIES if c["code"] not in history]
+if not available:
+history = []
+available = COUNTRIES[:]
+random.shuffle(available)
+for chosen in available:
+try:
+tracks = fetch_chart(chosen["code"])
+if tracks:
+history.append(chosen["code"])
+save_history(history)
+return chosen, tracks
+except Exception as e:
+print(f"Пропуск {chosen['name']} ({chosen['code']}): {e}")
+raise RuntimeError("Не удалось получить чарт ни для одной страны")
+def generate_post(country, tracks_text):
+prompt = f"""Ты — музыкальный редактор популярного Telegram-канала.
+Оформи красивый, живой пост на русском языке с актуальным топ-10 треков страны: {country['flag']} {country['name']}.
+Вот реальный список треков из чарта Apple Music прямо сейчас:
+{tracks_text}
+Требования к посту:
+1. Начни с яркого заголовка с флагом страны (например: {country['flag']} Топ-10 чарта: {country['name']}).
+2. Выведи пронумерованный список всех 10 треков. Названия треков и артистов оставь в оригинале.
+3. После списка добавь короткий блок «🎧 Что происходит в чарте» (2–3 предложения с интересными наблюдениями или фактами о лидерах этого списка).
+4. В конце добавь 3–4 подходящих хэштега на русском и английском.
+5. Используй только базовые HTML-теги Telegram:  и . Не используй Markdown (** или #) и не пиши никаких вступительных слов от себя."""models = [
+"google/gemini-2.0-flash-exp:free",
+"meta-llama/llama-3.3-70b-instruct:free",
+"qwen/qwen-2.5-72b-instruct:free",
+]headers = {
+"Authorization": f"Bearer {OPENROUTER_API_KEY}",
+"Content-Type": "application/json",
+}for model in models:
+try:
+payload = {
+"model": model,
+"messages": [{"role": "user", "content": prompt}],
+}
+resp = requests.post(
+"openrouter.ai",
+headers=headers,
+json=payload,
+timeout=45,
+)
+if resp.status_code == 200:
+content = resp.json()["choices"]["message"]["content"].strip()
+if content:
+return content
+except Exception as e:
+print(f"Model {model} failed: {e}")raise RuntimeError("Все бесплатные модели OpenRouter временно недоступны")
+def send_to_telegram(text):
+url = f"telegram.org{TG_BOT_TOKEN}/sendMessage"
+payload = {
+"chat_id": TG_CHANNEL_ID,
+"text": text,
+"parse_mode": "HTML",
+"disable_web_page_preview": True,
+}
+resp = requests.post(url, json=payload, timeout=20)
+resp.raise_for_status()
+if name == "main":
+country, tracks = get_country_and_tracks()
+print(f"Выбрана страна: {country['name']}")
+post_text = generate_post(country, tracks)
+send_to_telegram(post_text)
+print("Пост успешно опубликован!")
