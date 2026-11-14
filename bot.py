@@ -194,7 +194,6 @@ def fetch_chart(country_code):
     resp = requests.get(url, timeout=20)
     resp.raise_for_status()
     data = resp.json()
-Используйте код с осторожностью.
 results = data.get("feed", {}).get("results", [])
 if not results:
 return None
