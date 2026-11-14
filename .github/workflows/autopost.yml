@@ -32,7 +32,9 @@ jobs:
 
       - name: Сохраняем историю стран
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add history.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update chart history" && git push)
+          if [ -f history.json ]; then
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add history.json
+            git diff --quiet && git diff --staged --quiet || (git commit -m "Update chart history" && git push)
+          fi
